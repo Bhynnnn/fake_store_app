@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/cart_item.dart';
 import '../models/product.dart';
 
-class CartProvide with ChangeNotifier {
+class CartProvider with ChangeNotifier {
   final List<CartItem> _items = [];
   List<CartItem> get items => _items;
   double get totalPrice => _items.fold(

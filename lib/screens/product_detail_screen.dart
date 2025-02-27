@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/product.dart';
+import '../providers/cart_provider.dart';
 import '../services/api_service.dart';
 import '../widgets/quantity_selector.dart';
+import '../widgets/shopping_cart.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final int productId;
@@ -27,7 +30,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('상품 상세')),
+      appBar: AppBar(
+        title: const Text('상품 상세'),
+        actions: [ShoppingCart()],
+      ),
       body: SafeArea(
         child: FutureBuilder(
           future: product,
@@ -53,6 +59,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                       onPressed: () {
                         // 장바구니에 담기
+                        final cartProvider = context.read<CartProvider>();
+                        cartProvider.addToCart(snapshot.data as Product,
+                            quantity: quantity);
                         print(
                           '장바구니에 담기: ${snapshot.data!.id} / title: ${snapshot.data!.title}, $quantity',
                         );
